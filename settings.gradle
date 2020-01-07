@@ -1,0 +1,2 @@
+include 'foodie-common', 'foodie-model', 'foodie-dao', 'foodie-service', 'foodie-api'
+

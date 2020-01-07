@@ -1,0 +1,42 @@
+// Sub module depend
+project("foodie-common") {
+    dependencies {
+    }
+    jar.enabled = true
+    bootJar.enabled = false
+}
+
+project("foodie-model") {
+    dependencies {
+        implementation project(":foodie-common")
+    }
+    jar.enabled = true
+    bootJar.enabled = false
+}
+
+project("foodie-dao") {
+    dependencies {
+        implementation project(":foodie-common")
+        implementation project(":foodie-model")
+    }
+    jar.enabled = true
+    bootJar.enabled = false
+}
+
+project("foodie-service") {
+    dependencies {
+        implementation project(":foodie-common")
+        implementation project(":foodie-model")
+        compile project(":foodie-dao")
+    }
+    jar.enabled = true
+    bootJar.enabled = false
+}
+
+project("foodie-api") {
+    dependencies {
+        implementation project(":foodie-common")
+        implementation project(":foodie-model")
+        implementation project(":foodie-service")
+    }
+}

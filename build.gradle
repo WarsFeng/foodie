@@ -1,0 +1,68 @@
+import org.springframework.boot.gradle.plugin.SpringBootPlugin
+
+plugins {
+    id 'org.springframework.boot' version '2.2.2.RELEASE'
+    id 'io.spring.dependency-management' version '1.0.8.RELEASE'
+}
+
+apply from: this.file('common.gradle')
+
+allprojects {
+    // Remote repository
+    repositories {
+        jcenter()
+        mavenCentral()
+    }
+}
+
+subprojects {
+    apply plugin: "java"
+    apply plugin: "org.springframework.boot"
+    apply plugin: "io.spring.dependency-management"
+    // Basic config
+    group this.base.groupName
+    version this.base.versionName
+    sourceCompatibility = this.base.javaVersion
+    targetCompatibility = this.base.javaVersion
+
+    springBoot {
+        buildInfo()
+    }
+
+    tasks.withType(AbstractCompile).each { it.options.encoding = this.base.defaultEncoding }
+
+    compileJava.dependsOn(processResources)
+
+    test { include "**/model/**", "**/controller/**", "**/usecase/**", "**/util/**", "**/context/**" }
+
+    dependencyManagement {
+        imports {
+            mavenBom SpringBootPlugin.BOM_COORDINATES
+        }
+        dependencies {
+            dependency("org.springframework.boot:spring-boot-starter:${dependVersion.spring_boot}") {
+                exclude 'org.springframework.boot:spring-boot-starter-logging'
+            }
+            dependency "org.slf4j:slf4j-api:${dependVersion.slf4j}"
+            dependency "org.slf4j:slf4j-log4j12:${dependVersion.slf4j}"
+            dependency "io.springfox:springfox-swagger2:${dependVersion.springfox_swagger}"
+            dependency "io.springfox:springfox-swagger-ui:${dependVersion.springfox_swagger}"
+            dependency("org.springframework.boot:spring-boot-starter-web:${dependVersion.spring_boot}") {
+                exclude 'org.springframework.boot:spring-boot-starter-tomcat'
+            }
+            dependency "mysql:mysql-connector-java:${dependVersion.mysql_connector}"
+            dependency "org.mybatis.spring.boot:mybatis-spring-boot-starter:${dependVersion.mybatis_spring_boot}"
+            dependency "javax.persistence:persistence-api:${dependVersion.persistence_api}"
+            dependency "tk.mybatis:mapper-spring-boot-starter:${dependVersion.tk_mybatis_mapper_spring_boot}"
+            dependency "com.github.pagehelper:pagehelper-spring-boot-starter:${dependVersion.pagehelper_spring_boot}"
+            dependency "commons-codec:commons-codec:${dependVersion.commons_codec}"
+            dependency "org.apache.commons:commons-lang3:${dependVersion.apache_commons_lang3}"
+        }
+    }
+
+    dependencies {
+        annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
+    }
+}
+
+apply from: this.file('subDepend.gradle')

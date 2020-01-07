@@ -1,0 +1,18 @@
+ext {
+    base = [groupName      : "cat.wars.foodie",
+            versionName    : "1.0-SNAPSHOT",
+            javaVersion    : JavaVersion.VERSION_11,
+            defaultEncoding: "UTF-8"]
+    dependVersion = [
+            spring_boot                  : "2.2.2.RELEASE",
+            slf4j                        : "1.7.30",
+            mysql_connector              : "8.0.18",
+            mybatis_spring_boot          : "2.1.1",
+            persistence_api              : "1.0",
+            tk_mybatis_mapper_spring_boot: "2.1.5",
+            pagehelper_spring_boot       : "1.2.13",
+            springfox_swagger            : "2.9.2",
+            commons_codec                : "1.13",
+            apache_commons_lang3         : "3.9"
+    ]
+}

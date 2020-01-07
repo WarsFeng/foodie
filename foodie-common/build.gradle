@@ -1,0 +1,12 @@
+dependencies {
+    annotationProcessor 'org.projectlombok:lombok'
+    compileOnly 'org.projectlombok:lombok'
+    implementation 'io.springfox:springfox-swagger2'
+    implementation 'org.springframework:spring-web'
+    implementation 'commons-codec:commons-codec'
+    implementation 'org.apache.commons:commons-lang3'
+    implementation 'javax.servlet:javax.servlet-api:4.0.1'
+    implementation 'com.fasterxml.jackson.core:jackson-databind:2.10.0.pr3'
+    testAnnotationProcessor 'org.projectlombok:lombok'
+    testCompileOnly 'org.projectlombok:lombok'
+}
