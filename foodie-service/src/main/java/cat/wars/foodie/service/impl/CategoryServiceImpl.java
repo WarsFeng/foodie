@@ -1,14 +1,15 @@
 package cat.wars.foodie.service.impl;
 
 import cat.wars.foodie.dao.CategoryMapper;
+import cat.wars.foodie.dao.ItemsMapper;
 import cat.wars.foodie.framework.exception.ExceptionCast;
 import cat.wars.foodie.framework.model.Category;
 import cat.wars.foodie.framework.model.enums.CategoryType;
-import cat.wars.foodie.framework.model.response.FoodieCode;
-import cat.wars.foodie.framework.model.response.QueryResult;
-import cat.wars.foodie.framework.model.response.SubCategoryResult;
+import cat.wars.foodie.framework.model.response.*;
 import cat.wars.foodie.service.CategoryService;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 import tk.mybatis.mapper.entity.Example;
 
 import java.util.List;
@@ -24,12 +25,15 @@ import java.util.List;
 public class CategoryServiceImpl implements CategoryService {
 
     private final CategoryMapper mapper;
+    private final ItemsMapper itemsMapper;
 
-    public CategoryServiceImpl(CategoryMapper mapper) {
+    public CategoryServiceImpl(CategoryMapper mapper, ItemsMapper itemsMapper) {
         this.mapper = mapper;
+        this.itemsMapper = itemsMapper;
     }
 
     @Override
+    @Transactional(propagation = Propagation.SUPPORTS)
     public QueryResult<Category> queryAllRootCategory() {
         Example example = new Example(Category.class);
         example.createCriteria()
@@ -40,10 +44,22 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
+    @Transactional(propagation = Propagation.SUPPORTS)
     public QueryResult<SubCategoryResult> getSubCategoryByRoot(int rootId) {
         if (!mapper.existsWithPrimaryKey(rootId)) ExceptionCast.cast(FoodieCode.CATEGORY_NOT_EXISTS);
 
         List<SubCategoryResult> subList = mapper.getSubList(rootId);
         return new QueryResult<>(subList, subList.size());
+    }
+
+    @Override
+    @Transactional(propagation = Propagation.SUPPORTS)
+    public IndexRECCategoryResponseResult getIndexRECCategory(int rootId) {
+        if (!mapper.existsWithPrimaryKey(rootId)) ExceptionCast.cast(FoodieCode.CATEGORY_NOT_EXISTS);
+
+        IndexRECCategoryResponseResult result = mapper.getIndexRECCategory(rootId);
+        List<IndexRECItemResult> items = itemsMapper.getIndexRecommendItems(rootId);
+        if (!items.isEmpty()) result.setItems(items);
+        return result;
     }
 }

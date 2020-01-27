@@ -1,15 +1,17 @@
 package cat.wars.foodie.service.impl;
 
-import cat.wars.foodie.service.UserService;
 import cat.wars.foodie.dao.UsersMapper;
 import cat.wars.foodie.framework.model.Users;
 import cat.wars.foodie.framework.model.enums.Sex;
 import cat.wars.foodie.framework.model.request.UserRegisterRequest;
 import cat.wars.foodie.framework.utils.DateUtil;
 import cat.wars.foodie.framework.utils.MD5Utils;
+import cat.wars.foodie.service.UserService;
 import org.n3r.idworker.Sid;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 import tk.mybatis.mapper.entity.Example;
 
 import java.util.Date;
@@ -35,6 +37,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional(propagation = Propagation.SUPPORTS)
     public boolean queryUsernameIsAvailable(String username) {
         Example example = new Example(Users.class);
         example.createCriteria().andEqualTo("username", username);
@@ -42,6 +45,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional(propagation = Propagation.REQUIRED)
     public Users createUser(UserRegisterRequest request) {
         Users user = new Users();
         user.setId(sid.nextShort());
@@ -66,6 +70,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional(propagation = Propagation.SUPPORTS)
     public Users queryUserForLogin(String username, String password) {
         Example example = new Example(Users.class);
         example.createCriteria().andEqualTo("username", username);

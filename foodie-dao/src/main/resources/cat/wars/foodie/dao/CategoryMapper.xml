@@ -37,4 +37,11 @@
                  LEFT JOIN category c ON f.id = c.father_id
         WHERE f.father_id = #{rootId}
     </select>
+
+    <select id="getIndexRECCategory" parameterType="int"
+            resultType="cat.wars.foodie.framework.model.response.IndexRECCategoryResponseResult">
+        SELECT id, name, slogan, cat_image img, bg_color bgColor
+        FROM category
+        WHERE id = #{rootId}
+    </select>
 </mapper>

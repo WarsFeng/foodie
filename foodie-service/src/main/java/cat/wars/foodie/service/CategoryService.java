@@ -1,6 +1,7 @@
 package cat.wars.foodie.service;
 
 import cat.wars.foodie.framework.model.Category;
+import cat.wars.foodie.framework.model.response.IndexRECCategoryResponseResult;
 import cat.wars.foodie.framework.model.response.QueryResult;
 import cat.wars.foodie.framework.model.response.SubCategoryResult;
 
@@ -20,10 +21,19 @@ public interface CategoryService {
     QueryResult<Category> queryAllRootCategory();
 
     /**
-     * Get sub category list by rootId
+     * Get sub category list
      *
      * @param rootId root level id
      * @return cat.wars.foodie.framework.model.response.QueryResult {@link SubCategoryResult}
      */
     QueryResult<SubCategoryResult> getSubCategoryByRoot(int rootId);
+
+
+    /**
+     * Get index recommend category( include items )
+     *
+     * @param rootId root level id
+     * @return cat.wars.foodie.framework.model.response.IndexRECCategoryResponseResult
+     */
+    IndexRECCategoryResponseResult getIndexRECCategory(int rootId);
 }

@@ -4,10 +4,12 @@ import cat.wars.foodie.framework.model.Carousel;
 import cat.wars.foodie.framework.model.Category;
 import cat.wars.foodie.framework.model.enums.YesOrNo;
 import cat.wars.foodie.framework.model.response.FoodieCode;
+import cat.wars.foodie.framework.model.response.IndexRECCategoryResponseResult;
 import cat.wars.foodie.framework.model.response.QueryResponseResult;
 import cat.wars.foodie.framework.model.response.SubCategoryResult;
 import cat.wars.foodie.service.CarouselService;
 import cat.wars.foodie.service.CategoryService;
+import cat.wars.foodie.service.ItemService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -28,10 +30,12 @@ public class IndexController {
 
     private final CarouselService carouselService;
     private final CategoryService categoryService;
+    private final ItemService itemService;
 
-    public IndexController(CarouselService carouselService, CategoryService categoryService) {
+    public IndexController(CarouselService carouselService, CategoryService categoryService, ItemService itemService) {
         this.carouselService = carouselService;
         this.categoryService = categoryService;
+        this.itemService = itemService;
     }
 
     @GetMapping("/carousel")
@@ -50,5 +54,11 @@ public class IndexController {
     @ApiOperation(value = "获取商品二级以及其子分类列表", notes = "获取商品二级以及其子分类列表")
     public QueryResponseResult<SubCategoryResult> subCategory(@PathVariable("rootId") int rootId) {
         return new QueryResponseResult<>(FoodieCode.SUCCESS, categoryService.getSubCategoryByRoot(rootId));
+    }
+
+    @GetMapping("/recommend/category/{rootId}")
+    @ApiOperation(value = "获取首页分类商品推荐", notes = "分类 Id 获取首页商品推荐")
+    public IndexRECCategoryResponseResult recommendCategory(@PathVariable("rootId") int rootId) {
+        return categoryService.getIndexRECCategory(rootId);
     }
 }

@@ -5,6 +5,8 @@ import cat.wars.foodie.framework.model.Carousel;
 import cat.wars.foodie.framework.model.response.QueryResult;
 import cat.wars.foodie.service.CarouselService;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 import tk.mybatis.mapper.entity.Example;
 
 import java.util.List;
@@ -26,6 +28,7 @@ public class CarouselServiceImpl implements CarouselService {
     }
 
     @Override
+    @Transactional(propagation = Propagation.SUPPORTS)
     public QueryResult<Carousel> queryAll(int isShow) {
         Example example = new Example(Carousel.class);
         example.createCriteria()

@@ -1,18 +1,32 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="cat.wars.foodie.dao.ItemsMapper" >
-  <resultMap id="BaseResultMap" type="cat.wars.foodie.framework.model.Items" >
-    <!--
-      WARNING - @mbg.generated
-    -->
-    <id column="id" property="id" jdbcType="VARCHAR" />
-    <result column="item_name" property="itemName" jdbcType="VARCHAR" />
-    <result column="cat_id" property="catId" jdbcType="INTEGER" />
-    <result column="root_cat_id" property="rootCatId" jdbcType="INTEGER" />
-    <result column="sell_counts" property="sellCounts" jdbcType="INTEGER" />
-    <result column="on_off_status" property="onOffStatus" jdbcType="INTEGER" />
-    <result column="created_time" property="createdTime" jdbcType="TIMESTAMP" />
-    <result column="updated_time" property="updatedTime" jdbcType="TIMESTAMP" />
-    <result column="content" property="content" jdbcType="LONGVARCHAR" />
-  </resultMap>
+<mapper namespace="cat.wars.foodie.dao.ItemsMapper">
+    <resultMap id="BaseResultMap" type="cat.wars.foodie.framework.model.Items">
+        <!--
+          WARNING - @mbg.generated
+        -->
+        <id column="id" property="id" jdbcType="VARCHAR"/>
+        <result column="item_name" property="itemName" jdbcType="VARCHAR"/>
+        <result column="cat_id" property="catId" jdbcType="INTEGER"/>
+        <result column="root_cat_id" property="rootCatId" jdbcType="INTEGER"/>
+        <result column="sell_counts" property="sellCounts" jdbcType="INTEGER"/>
+        <result column="on_off_status" property="onOffStatus" jdbcType="INTEGER"/>
+        <result column="created_time" property="createdTime" jdbcType="TIMESTAMP"/>
+        <result column="updated_time" property="updatedTime" jdbcType="TIMESTAMP"/>
+        <result column="content" property="content" jdbcType="LONGVARCHAR"/>
+    </resultMap>
+
+    <select id="getIndexRecommendItems" resultType="cat.wars.foodie.framework.model.response.IndexRECItemResult">
+        SELECT i.id        id
+             , i.item_name name
+             , ii.url      imageUrl
+        FROM items i
+                 LEFT JOIN items_img ii on i.id = ii.item_id
+        WHERE i.on_off_status = 1 -- On of item
+          AND ii.is_main = 1      -- Main image
+          AND i.root_cat_id = #{categoryRootId}
+        ORDER BY i.sell_counts DESC -- Sort by sellCount and createTime
+               , i.created_time DESC
+        LIMIT 6
+    </select>
 </mapper>
