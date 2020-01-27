@@ -1,17 +1,40 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="cat.wars.foodie.dao.CategoryMapper" >
-  <resultMap id="BaseResultMap" type="cat.wars.foodie.framework.model.Category" >
-    <!--
-      WARNING - @mbg.generated
-    -->
-    <id column="id" property="id" jdbcType="INTEGER" />
-    <result column="name" property="name" jdbcType="VARCHAR" />
-    <result column="type" property="type" jdbcType="INTEGER" />
-    <result column="father_id" property="fatherId" jdbcType="INTEGER" />
-    <result column="logo" property="logo" jdbcType="VARCHAR" />
-    <result column="slogan" property="slogan" jdbcType="VARCHAR" />
-    <result column="cat_image" property="catImage" jdbcType="VARCHAR" />
-    <result column="bg_color" property="bgColor" jdbcType="VARCHAR" />
-  </resultMap>
+<mapper namespace="cat.wars.foodie.dao.CategoryMapper">
+    <resultMap id="BaseResultMap" type="cat.wars.foodie.framework.model.Category">
+        <!--
+          WARNING - @mbg.generated
+        -->
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="name" property="name" jdbcType="VARCHAR"/>
+        <result column="type" property="type" jdbcType="INTEGER"/>
+        <result column="father_id" property="fatherId" jdbcType="INTEGER"/>
+        <result column="logo" property="logo" jdbcType="VARCHAR"/>
+        <result column="slogan" property="slogan" jdbcType="VARCHAR"/>
+        <result column="cat_image" property="catImage" jdbcType="VARCHAR"/>
+        <result column="bg_color" property="bgColor" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <resultMap id="subCategoryResult" type="cat.wars.foodie.framework.model.response.SubCategoryResult">
+        <id column="id" property="id"/>
+        <result column="pid" property="pid"/>
+        <result column="name" property="name"/>
+        <collection property="children" ofType="cat.wars.foodie.framework.model.response.SubCategoryResult">
+            <id column="subId" property="id"/>
+            <result column="subPid" property="pid"/>
+            <result column="subName" property="name"/>
+        </collection>
+    </resultMap>
+
+    <select id="getSubList" parameterType="int" resultMap="subCategoryResult">
+        SELECT f.id        id
+             , f.father_id pid
+             , f.`name`    `name`
+             , c.id        subId
+             , c.father_id subPid
+             , c.name      subName
+        FROM category f
+                 LEFT JOIN category c ON f.id = c.father_id
+        WHERE f.father_id = #{rootId}
+    </select>
 </mapper>

@@ -26,15 +26,29 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/index")
 public class IndexController {
 
-    private final CarouselService service;
+    private final CarouselService carouselService;
+    private final CategoryService categoryService;
 
-    public IndexController(CarouselService service) {
-        this.service = service;
+    public IndexController(CarouselService carouselService, CategoryService categoryService) {
+        this.carouselService = carouselService;
+        this.categoryService = categoryService;
     }
 
     @GetMapping("/carousel")
     @ApiOperation(value = "首页轮播图列表", notes = "获取所有开启状态的轮播图")
     public QueryResponseResult<Carousel> carousel() {
         return new QueryResponseResult<>(FoodieCode.SUCCESS, carouselService.queryAll(YesOrNo.YES.value));
+    }
+
+    @GetMapping("/category")
+    @ApiOperation(value = "商品分类列表（一级分类）", notes = "获取商品一级分类")
+    public QueryResponseResult<Category> category() {
+        return new QueryResponseResult<>(FoodieCode.SUCCESS, categoryService.queryAllRootCategory());
+    }
+
+    @GetMapping("/subCategory/{rootId}")
+    @ApiOperation(value = "获取商品二级以及其子分类列表", notes = "获取商品二级以及其子分类列表")
+    public QueryResponseResult<SubCategoryResult> subCategory(@PathVariable("rootId") int rootId) {
+        return new QueryResponseResult<>(FoodieCode.SUCCESS, categoryService.getSubCategoryByRoot(rootId));
     }
 }

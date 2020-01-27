@@ -22,6 +22,8 @@ public enum FoodieCode implements ResultCode {
     PASSPORT_REGISTER_INVALID_PARAM(false, 20003, "用户名或密码不能为空！"),
     PASSPORT_LOGIN_INVALID_PARAM(false, 20004, "用户名或密码不能为空！"),
     PASSPORT_LOGIN_FAIL(false, 20005, "用户名或密码不正确！"),
+    //  category 201xx
+    CATEGORY_NOT_EXISTS(false, 20100, "此分类不存在！"),
 
     // Back andm 3XXXX
 
