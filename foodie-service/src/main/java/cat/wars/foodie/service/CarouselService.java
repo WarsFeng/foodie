@@ -1,8 +1,7 @@
 package cat.wars.foodie.service;
 
 import cat.wars.foodie.framework.model.Carousel;
-
-import java.util.List;
+import cat.wars.foodie.framework.model.response.QueryResult;
 
 /**
  * @program: foodie
@@ -12,5 +11,5 @@ import java.util.List;
  */
 public interface CarouselService {
 
-    List<Carousel> findAll(int isShow);
+    QueryResult<Carousel> queryAll(int isShow);
 }

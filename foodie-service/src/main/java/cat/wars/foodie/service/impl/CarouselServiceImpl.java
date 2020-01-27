@@ -2,6 +2,7 @@ package cat.wars.foodie.service.impl;
 
 import cat.wars.foodie.dao.CarouselMapper;
 import cat.wars.foodie.framework.model.Carousel;
+import cat.wars.foodie.framework.model.response.QueryResult;
 import cat.wars.foodie.service.CarouselService;
 import org.springframework.stereotype.Service;
 import tk.mybatis.mapper.entity.Example;
@@ -10,10 +11,11 @@ import java.util.List;
 
 /**
  * @program: foodie
- * @description: Index carousel basic implementation
+ * @description:
  * @author: Wars
- * @created: 2019/12/29 20:10
+ * @created: 2020/01/26 19:51
  */
+
 @Service
 public class CarouselServiceImpl implements CarouselService {
 
@@ -24,12 +26,12 @@ public class CarouselServiceImpl implements CarouselService {
     }
 
     @Override
-    public List<Carousel> findAll(int isShow) {
+    public QueryResult<Carousel> queryAll(int isShow) {
         Example example = new Example(Carousel.class);
         example.createCriteria()
                 .andEqualTo("isShow", isShow);
 
-        example.orderBy("sort");
-        return mapper.selectByExample(example);
+        List<Carousel> carouselList = mapper.selectByExample(example);
+        return new QueryResult<>(carouselList, carouselList.size());
     }
 }
