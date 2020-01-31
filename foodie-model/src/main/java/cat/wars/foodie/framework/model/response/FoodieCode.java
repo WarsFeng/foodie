@@ -24,6 +24,8 @@ public enum FoodieCode implements ResultCode {
     PASSPORT_LOGIN_FAIL(false, 20005, "用户名或密码不正确！"),
     //  category 201xx
     CATEGORY_NOT_EXISTS(false, 20100, "此分类不存在！"),
+    //  item    202xx
+    ITEM_NOT_EXISTS(false, 20200, "该商品不存在！"),
 
     // Back andm 3XXXX
 
