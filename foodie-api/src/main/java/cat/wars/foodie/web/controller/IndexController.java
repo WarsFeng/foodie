@@ -2,7 +2,7 @@ package cat.wars.foodie.web.controller;
 
 import cat.wars.foodie.framework.model.Carousel;
 import cat.wars.foodie.framework.model.Category;
-import cat.wars.foodie.framework.model.enums.YesOrNo;
+import cat.wars.foodie.framework.model.enums.YesOrNoEnum;
 import cat.wars.foodie.framework.model.response.FoodieCode;
 import cat.wars.foodie.framework.model.response.IndexRECCategoryResponseResult;
 import cat.wars.foodie.framework.model.response.QueryResponseResult;
@@ -41,7 +41,7 @@ public class IndexController {
     @GetMapping("/carousel")
     @ApiOperation(value = "首页轮播图列表", notes = "获取所有开启状态的轮播图")
     public QueryResponseResult<Carousel> carousel() {
-        return new QueryResponseResult<>(FoodieCode.SUCCESS, carouselService.queryAll(YesOrNo.YES.value));
+        return new QueryResponseResult<>(FoodieCode.SUCCESS, carouselService.queryAll(YesOrNoEnum.YES.value));
     }
 
     @GetMapping("/category")

@@ -4,7 +4,7 @@ import cat.wars.foodie.dao.CategoryMapper;
 import cat.wars.foodie.dao.ItemsMapper;
 import cat.wars.foodie.framework.exception.ExceptionCast;
 import cat.wars.foodie.framework.model.Category;
-import cat.wars.foodie.framework.model.enums.CategoryType;
+import cat.wars.foodie.framework.model.enums.CategoryTypeEnum;
 import cat.wars.foodie.framework.model.response.*;
 import cat.wars.foodie.service.CategoryService;
 import org.springframework.stereotype.Service;
@@ -37,7 +37,7 @@ public class CategoryServiceImpl implements CategoryService {
     public QueryResult<Category> queryAllRootCategory() {
         Example example = new Example(Category.class);
         example.createCriteria()
-                .andEqualTo("type", CategoryType.ROOT.type); // Root level category
+                .andEqualTo("type", CategoryTypeEnum.ROOT.type); // Root level category
 
         List<Category> categoryList = mapper.selectByExample(example);
         return new QueryResult<>(categoryList, categoryList.size());

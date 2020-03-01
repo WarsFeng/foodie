@@ -2,7 +2,7 @@ package cat.wars.foodie.service.impl;
 
 import cat.wars.foodie.dao.UsersMapper;
 import cat.wars.foodie.framework.model.Users;
-import cat.wars.foodie.framework.model.enums.Sex;
+import cat.wars.foodie.framework.model.enums.SexEnum;
 import cat.wars.foodie.framework.model.request.UserRegisterRequest;
 import cat.wars.foodie.framework.utils.DateUtil;
 import cat.wars.foodie.framework.utils.MD5Utils;
@@ -59,7 +59,7 @@ public class UserServiceImpl implements UserService {
         user.setNickname(user.getUsername());
         user.setFace(FACE_ICON);
         user.setBirthday(DateUtil.stringToDate("1900-01-01"));
-        user.setSex(Sex.SECRET.type);
+        user.setSex(SexEnum.SECRET.type);
 
         Date currDate = new Date();
         user.setCreatedTime(currDate);

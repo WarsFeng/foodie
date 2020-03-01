@@ -6,14 +6,14 @@ package cat.wars.foodie.framework.model.enums;
  * @author: Wars
  * @created: 2020/01/26 15:15
  */
-public enum CategoryType {
+public enum CategoryTypeEnum {
 
     ROOT(1, "一级大分类");
 
     public final Integer type;
     public final String value;
 
-    CategoryType(Integer type, String value) {
+    CategoryTypeEnum(Integer type, String value) {
         this.type = type;
         this.value = value;
     }
