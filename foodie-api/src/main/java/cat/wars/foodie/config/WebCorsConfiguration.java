@@ -19,7 +19,7 @@ public class WebCorsConfiguration {
     public CorsFilter corsFilter() {
         CorsConfiguration configuration = new CorsConfiguration();
 
-        configuration.addAllowedOrigin("http://localhost:8080");
+        configuration.addAllowedOrigin("http://localhost:8081");
 
         configuration.setAllowCredentials(true);
         configuration.addAllowedMethod("*");
