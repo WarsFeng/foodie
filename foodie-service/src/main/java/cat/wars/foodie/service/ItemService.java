@@ -15,35 +15,35 @@ import java.util.List;
  */
 public interface ItemService {
 
-    /**
-     * Get item by id
-     *
-     * @param id item id
-     * @return cat.wars.foodie.framework.model.Items
-     */
-    Items getItem(String id);
+  /**
+   * Get item by id
+   *
+   * @param id item id
+   * @return cat.wars.foodie.framework.model.Items
+   */
+  Items getItem(String id);
 
-    /**
-     * Query item img
-     *
-     * @param id item id
-     * @return java.util.List {@link ItemsImg}
-     */
-    List<ItemsImg> queryItemImgList(String id);
+  /**
+   * Query item img
+   *
+   * @param id item id
+   * @return java.util.List {@link ItemsImg}
+   */
+  List<ItemsImg> queryItemImgList(String id);
 
-    /**
-     * Query item spec
-     *
-     * @param id item id
-     * @return java.util.List {@link ItemsSpec}
-     */
-    List<ItemsSpec> queryItemSpecList(String id);
+  /**
+   * Query item spec
+   *
+   * @param id item id
+   * @return java.util.List {@link ItemsSpec}
+   */
+  List<ItemsSpec> queryItemSpecList(String id);
 
-    /**
-     * Get item param
-     *
-     * @param id item id
-     * @return cat.wars.foodie.framework.model.ItemsParam
-     */
-    ItemsParam getItemParam(String id);
+  /**
+   * Get item param
+   *
+   * @param id item id
+   * @return cat.wars.foodie.framework.model.ItemsParam
+   */
+  ItemsParam getItemParam(String id);
 }
