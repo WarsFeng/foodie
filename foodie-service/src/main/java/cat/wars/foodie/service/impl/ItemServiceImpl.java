@@ -24,68 +24,65 @@ import java.util.List;
  * @author: Wars
  * @created: 2020/01/27 22:11
  */
-
 @Service
 public class ItemServiceImpl implements ItemService {
 
-    private final ItemsMapper mapper;
-    private final ItemsImgMapper itemsImgMapper;
-    private final ItemsSpecMapper itemsSpecMapper;
-    private final ItemsParamMapper itemsParamMapper;
+  private final ItemsMapper mapper;
+  private final ItemsImgMapper itemsImgMapper;
+  private final ItemsSpecMapper itemsSpecMapper;
+  private final ItemsParamMapper itemsParamMapper;
 
-    public ItemServiceImpl(ItemsMapper mapper, ItemsImgMapper itemsImgMapper, ItemsSpecMapper itemsSpecMapper, ItemsParamMapper itemsParamMapper) {
-        this.mapper = mapper;
-        this.itemsImgMapper = itemsImgMapper;
-        this.itemsSpecMapper = itemsSpecMapper;
-        this.itemsParamMapper = itemsParamMapper;
-    }
+  public ItemServiceImpl(
+      ItemsMapper mapper,
+      ItemsImgMapper itemsImgMapper,
+      ItemsSpecMapper itemsSpecMapper,
+      ItemsParamMapper itemsParamMapper) {
+    this.mapper = mapper;
+    this.itemsImgMapper = itemsImgMapper;
+    this.itemsSpecMapper = itemsSpecMapper;
+    this.itemsParamMapper = itemsParamMapper;
+  }
 
-    @Override
-    @Transactional(propagation = Propagation.SUPPORTS)
-    public Items getItem(String id) {
-        Items items;
-        if (null == (items = mapper.selectByPrimaryKey(id)))
-            ExceptionCast.cast(FoodieCode.ITEM_NOT_EXISTS);
+  @Override
+  @Transactional(propagation = Propagation.SUPPORTS)
+  public Items getItem(String id) {
+    Items items;
+    if (null == (items = mapper.selectByPrimaryKey(id)))
+      ExceptionCast.cast(FoodieCode.ITEM_NOT_EXISTS);
 
-        return items;
-    }
+    return items;
+  }
 
-    @Override
-    @Transactional(propagation = Propagation.SUPPORTS)
-    public List<ItemsImg> queryItemImgList(String id) {
-        if (!mapper.existsWithPrimaryKey(id))
-            ExceptionCast.cast(FoodieCode.ITEM_NOT_EXISTS);
+  @Override
+  @Transactional(propagation = Propagation.SUPPORTS)
+  public List<ItemsImg> queryItemImgList(String id) {
+    if (!mapper.existsWithPrimaryKey(id)) ExceptionCast.cast(FoodieCode.ITEM_NOT_EXISTS);
 
-        Example example = new Example(ItemsImg.class);
-        example.createCriteria()
-                .andEqualTo("itemId", id);
+    Example example = new Example(ItemsImg.class);
+    example.createCriteria().andEqualTo("itemId", id);
 
-        return itemsImgMapper.selectByExample(example);
-    }
+    return itemsImgMapper.selectByExample(example);
+  }
 
-    @Override
-    @Transactional(propagation = Propagation.SUPPORTS)
-    public List<ItemsSpec> queryItemSpecList(String id) {
-        if (!mapper.existsWithPrimaryKey(id))
-            ExceptionCast.cast(FoodieCode.ITEM_NOT_EXISTS);
+  @Override
+  @Transactional(propagation = Propagation.SUPPORTS)
+  public List<ItemsSpec> queryItemSpecList(String id) {
+    if (!mapper.existsWithPrimaryKey(id)) ExceptionCast.cast(FoodieCode.ITEM_NOT_EXISTS);
 
-        Example example = new Example(ItemsSpec.class);
-        example.createCriteria()
-                .andEqualTo("itemId", id);
+    Example example = new Example(ItemsSpec.class);
+    example.createCriteria().andEqualTo("itemId", id);
 
-        return itemsSpecMapper.selectByExample(example);
-    }
+    return itemsSpecMapper.selectByExample(example);
+  }
 
-    @Override
-    @Transactional(propagation = Propagation.SUPPORTS)
-    public ItemsParam getItemParam(String id) {
-        if (!mapper.existsWithPrimaryKey(id))
-            ExceptionCast.cast(FoodieCode.ITEM_NOT_EXISTS);
+  @Override
+  @Transactional(propagation = Propagation.SUPPORTS)
+  public ItemsParam getItemParam(String id) {
+    if (!mapper.existsWithPrimaryKey(id)) ExceptionCast.cast(FoodieCode.ITEM_NOT_EXISTS);
 
-        Example example = new Example(ItemsParam.class);
-        example.createCriteria()
-                .andEqualTo("itemId", id);
+    Example example = new Example(ItemsParam.class);
+    example.createCriteria().andEqualTo("itemId", id);
 
-        return itemsParamMapper.selectOneByExample(example);
-    }
+    return itemsParamMapper.selectOneByExample(example);
+  }
 }
