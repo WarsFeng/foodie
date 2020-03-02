@@ -1,15 +1,11 @@
 package cat.wars.foodie.service.impl;
 
-import cat.wars.foodie.dao.ItemsImgMapper;
-import cat.wars.foodie.dao.ItemsMapper;
-import cat.wars.foodie.dao.ItemsParamMapper;
-import cat.wars.foodie.dao.ItemsSpecMapper;
+import cat.wars.foodie.dao.*;
 import cat.wars.foodie.framework.exception.ExceptionCast;
-import cat.wars.foodie.framework.model.Items;
-import cat.wars.foodie.framework.model.ItemsImg;
-import cat.wars.foodie.framework.model.ItemsParam;
-import cat.wars.foodie.framework.model.ItemsSpec;
+import cat.wars.foodie.framework.model.*;
+import cat.wars.foodie.framework.model.enums.CommentLevelEnum;
 import cat.wars.foodie.framework.model.response.FoodieCode;
+import cat.wars.foodie.framework.model.response.item.ItemCommentCountsResult;
 import cat.wars.foodie.service.ItemService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -31,16 +27,19 @@ public class ItemServiceImpl implements ItemService {
   private final ItemsImgMapper itemsImgMapper;
   private final ItemsSpecMapper itemsSpecMapper;
   private final ItemsParamMapper itemsParamMapper;
+  private final ItemsCommentsMapper itemsCommentsMapper;
 
   public ItemServiceImpl(
       ItemsMapper mapper,
       ItemsImgMapper itemsImgMapper,
       ItemsSpecMapper itemsSpecMapper,
-      ItemsParamMapper itemsParamMapper) {
+      ItemsParamMapper itemsParamMapper,
+      ItemsCommentsMapper itemsCommentsMapper) {
     this.mapper = mapper;
     this.itemsImgMapper = itemsImgMapper;
     this.itemsSpecMapper = itemsSpecMapper;
     this.itemsParamMapper = itemsParamMapper;
+    this.itemsCommentsMapper = itemsCommentsMapper;
   }
 
   @Override
@@ -84,5 +83,23 @@ public class ItemServiceImpl implements ItemService {
     example.createCriteria().andEqualTo("itemId", id);
 
     return itemsParamMapper.selectOneByExample(example);
+  }
+
+  @Transactional(propagation = Propagation.SUPPORTS)
+  int getItemCommentCountByLevel(String itemId, int level) {
+    Example probe = new Example(ItemsComments.class);
+    probe.createCriteria().andEqualTo("itemId", itemId).andEqualTo("commentLevel", level);
+
+    return itemsCommentsMapper.selectCountByExample(probe);
+  }
+
+  @Override
+  @Transactional(propagation = Propagation.SUPPORTS)
+  public ItemCommentCountsResult itemCommentCounts(String id) {
+    int goodCount = getItemCommentCountByLevel(id, CommentLevelEnum.GOOD.value);
+    int normalCount = getItemCommentCountByLevel(id, CommentLevelEnum.NORMAL.value);
+    int lowCount = getItemCommentCountByLevel(id, CommentLevelEnum.LOW.value);
+    return new ItemCommentCountsResult(
+        FoodieCode.SUCCESS, goodCount + normalCount + lowCount, goodCount, normalCount, lowCount);
   }
 }

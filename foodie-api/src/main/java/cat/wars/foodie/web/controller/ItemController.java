@@ -7,6 +7,7 @@ import cat.wars.foodie.framework.model.ItemsParam;
 import cat.wars.foodie.framework.model.ItemsSpec;
 import cat.wars.foodie.framework.model.response.FoodieCode;
 import cat.wars.foodie.framework.model.response.ItemResult;
+import cat.wars.foodie.framework.model.response.item.ItemCommentCountsResult;
 import cat.wars.foodie.service.ItemService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -59,5 +60,10 @@ public class ItemController {
     result.setSpecs(specs);
     result.setParam(param);
     return result;
+  }
+
+  @GetMapping("/comment/counts/{itemId}")
+  public ItemCommentCountsResult itemCommentCounts(@PathVariable("itemId") String id) {
+    return service.itemCommentCounts(id);
   }
 }

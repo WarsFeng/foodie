@@ -4,6 +4,7 @@ import cat.wars.foodie.framework.model.Items;
 import cat.wars.foodie.framework.model.ItemsImg;
 import cat.wars.foodie.framework.model.ItemsParam;
 import cat.wars.foodie.framework.model.ItemsSpec;
+import cat.wars.foodie.framework.model.response.item.ItemCommentCountsResult;
 
 import java.util.List;
 
@@ -46,4 +47,12 @@ public interface ItemService {
    * @return cat.wars.foodie.framework.model.ItemsParam
    */
   ItemsParam getItemParam(String id);
+
+  /**
+   * Query item comment counts
+   *
+   * @param id item id
+   * @return cat.wars.foodie.framework.model.response.item.ItemCommentCountsResult
+   */
+  ItemCommentCountsResult itemCommentCounts(String id);
 }
